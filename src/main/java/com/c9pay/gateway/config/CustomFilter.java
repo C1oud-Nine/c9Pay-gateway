@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -35,9 +36,7 @@ public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Conf
             String uri = request.getURI().toString();
             log.info("external: {}", config.external);
             if(!UriParser.parse(uri, config.external)){
-                byte[] responseBytes = "Invalid access".getBytes(StandardCharsets.UTF_8);
-                DataBuffer buffer = response.bufferFactory().wrap(responseBytes);
-                return response.writeWith(Mono.just(buffer));
+               return onError(exchange, "Invalid access", BAD_REQUEST);
             }
             return chain.filter(exchange);
         };
@@ -46,6 +45,13 @@ public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Conf
     @Data
     public static class Config{
         String external;
+    }
+
+    private Mono<Void> onError(ServerWebExchange exchange, String message, HttpStatus status){
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(status);
+        log.error(message);
+        return response.setComplete();
     }
 
 }
