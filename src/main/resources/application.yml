@@ -12,10 +12,6 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: auth-service
-          uri: http://localhost:8081/
-          predicates:
-            - Path=/auth-service/**
         - id: credit-service
           uri: http://localhost:8082/
           predicates:
@@ -28,6 +24,9 @@ spring:
             - name: CustomFilter
               args:
                 external: api
+            - name: LoggingFilter
+              args:
+                serviceName: USER-SERVICE
         - id: store-service
           uri: http://localhost:8084/
           predicates:
@@ -36,4 +35,7 @@ spring:
             - name: CustomFilter
               args:
                 external: api
+            - name: LoggingFilter
+              args:
+                serviceName: STORE-SERVICE
 
