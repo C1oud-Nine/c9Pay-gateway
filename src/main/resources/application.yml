@@ -15,22 +15,16 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/**
+            - Path=/user-service/api/**
           filters:
-            - name: CustomFilter
-              args:
-                external: api
             - name: LoggingFilter
               args:
                 serviceName: USER-SERVICE
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:
-            - Path=/store-service/**
+            - Path=/store-service/api/**
           filters:
-            - name: CustomFilter
-              args:
-                external: api
             - name: LoggingFilter
               args:
                 serviceName: STORE-SERVICE
