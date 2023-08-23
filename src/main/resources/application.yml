@@ -29,3 +29,35 @@ spring:
               args:
                 serviceName: STORE-SERVICE
 
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:63342"
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+
+logging:
+  level:
+    com.com.c9pay.gateway: debug
+  pattern:
+    level: "%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]"
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3, w3c
+      produce: b3, w3c
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+
