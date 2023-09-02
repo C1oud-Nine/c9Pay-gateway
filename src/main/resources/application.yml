@@ -34,7 +34,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:63342"
+            allowedOrigins: "http://web.teamcloudnine.link"
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
