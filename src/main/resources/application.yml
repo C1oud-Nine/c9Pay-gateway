@@ -20,6 +20,7 @@ spring:
             - name: LoggingFilter
               args:
                 serviceName: USER-SERVICE
+            - name: UserCustomFilter
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:
