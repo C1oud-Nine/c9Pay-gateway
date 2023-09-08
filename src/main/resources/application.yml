@@ -66,3 +66,19 @@ management:
 gateway:
   key: ENC(+OtSkogeNy6KmK9+TsQM2Upqvsy1OPxt)
 
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    operations-sorter: alpha
+    path: /api-docs
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+        primaryName: API Gateway
+      - url: /user-service/v3/api-docs
+        name: 사용자 서비스
+        primaryName: User service
