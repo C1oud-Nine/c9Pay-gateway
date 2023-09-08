@@ -64,8 +64,5 @@ management:
 
 
 gateway:
-  key: temporary-password
+  key: ENC(+OtSkogeNy6KmK9+TsQM2Upqvsy1OPxt)
 
-jasypt:
-  encryptor:
-    password: temporary-password
