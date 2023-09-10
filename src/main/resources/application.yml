@@ -26,6 +26,7 @@ spring:
           predicates:
             - Path=/store-service/api/**
           filters:
+            - AddRequestHeader=api,${gateway.key}
             - name: LoggingFilter
               args:
                 serviceName: STORE-SERVICE
