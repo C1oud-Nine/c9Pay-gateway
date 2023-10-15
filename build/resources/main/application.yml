@@ -17,18 +17,26 @@ spring:
           predicates:
             - Path=/user-service/api/**
           filters:
+            - AddRequestHeader=api,${gateway.key}
             - name: LoggingFilter
               args:
                 serviceName: USER-SERVICE
-            - name: UserCustomFilter
+          metadata:
+            response-timeout: 3000
+            connect-timeout: 3000
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:
             - Path=/store-service/api/**
           filters:
+            - AddRequestHeader=api,${gateway.key}
             - name: LoggingFilter
               args:
                 serviceName: STORE-SERVICE
+        - id: credit-service
+          uri: lb://CREDIT-SERVICE
+          predicates:
+            - Path=/credit-service/api/**
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
@@ -62,3 +70,26 @@ management:
     tracing:
       endpoint: "http://localhost:9411/api/v2/spans"
 
+
+gateway:
+  key: ENC(+OtSkogeNy6KmK9+TsQM2Upqvsy1OPxt)
+
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    operations-sorter: alpha
+    path: /api-docs
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: 게이트웨이
+        primaryName: API Gateway
+      - url: /user-service/v3/api-docs
+        name: 사용자 서비스
+        primaryName: User service
+      - url: /credit-service/api/v3/api-docs
+        name: 크레딧 서비스
+        primaryName: Credit service

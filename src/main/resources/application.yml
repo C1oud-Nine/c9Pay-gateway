@@ -21,10 +21,16 @@ spring:
             - name: LoggingFilter
               args:
                 serviceName: USER-SERVICE
+          metadata:
+            response-timeout: 3000
+            connect-timeout: 3000
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:
             - Path=/store-service/api/**
+          metadata:
+            response-timeout: 3000
+            connect-timeout: 3000
           filters:
             - AddRequestHeader=api,${gateway.key}
             - name: LoggingFilter
